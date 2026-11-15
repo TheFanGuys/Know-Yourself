@@ -31,7 +31,7 @@ Data key: `know-yourself:hub:v2`. Legacy Enneagram answers from `know-yourself:o
 
 ## Validation
 
-Run `node check.cjs`: verifies all nine Enneagram keys/ties, ADHD thresholds and the3/4 boundary, all IPIP forward/reverse keys, full scale lengths, invalid/incomplete rejection.
+Run `node check.cjs`, `node gut-check.cjs` and `node extras-check.cjs`. `check.cjs` verifies all nine Enneagram keys/ties, ADHD thresholds and the3/4 boundary, all IPIP forward/reverse keys, full scale lengths, invalid/incomplete rejection.
 Browser QA: completed six-question ASRS with exactly4 shaded answers; expected positive-screen report; reloaded progress midway; downloaded full report. Completed all50 Big Five questions with fixed fixture; expected scores30/34/34/18/38. Legacy completed Enneagram imported and visible. Phone viewport375px: test search returns one ADHD card, no horizontal overflow; report and test controls inspected. Native iOS share/print and real-device offline reopening remain untested.
 
 ## v2.1: Enneagram wings and four-letter types
@@ -59,3 +59,22 @@ Seven new questions distinguish early satiety, prolonged post-meal fullness, nau
 - Offline cache now checks the network first for pages, scripts and styles, so updates show up without waiting. Still bump `CACHE` in `docs/sw.js` when releasing.
 - Images resized/compressed (about 1.4 MB → 0.56 MB). Removed unused `questions.js`, the old SVG icon, the hosted ASRS PDF (now an external link) and the ChatGPT hosting config.
 - Licensing note: the OEJTS (16-type) items are CC BY-NC-SA — keep this site non-commercial unless that test is replaced.
+
+## v3.0: deeper tests, comparisons, change over time
+
+New questionnaires (scored in `docs/engine.js`, data in `docs/extras-data.js`, screens in `docs/extras.js`):
+
+| ID | Instrument | Items | Scoring |
+| --- | --- | ---: | --- |
+| bigfive120 | IPIP-NEO-120 (Johnson, 2014) | 120 | 30 facets × 4 items (4–20); 5 traits = sum of 6 facets (24–120); 55 reverse-keyed |
+| selfesteem | Rosenberg Self-Esteem Scale | 10 | SA=3…SD=0; items 2,5,6,8,9 reversed; total 0–30; no official cut-offs |
+| interests | O*NET Interest Profiler Short Form | 60 | 0–4 per activity; 10 per RIASEC area (0–40); top three = interest code, ties flagged |
+
+Sources and terms:
+- IPIP-NEO-120: public-domain IPIP items. Item list/keys from the MIT-licensed `@alheimsins/b5-johnson-120-ipip-neo-pi-r` package (v6.0.13), checked against Johnson's 30-facet structure. Johnson, J. A. (2014), Journal of Research in Personality, 51, 78–89. The Liberalism facet contains two voting items; they are kept unchanged because altering items would break the published scale.
+- Rosenberg SES: public domain per https://socy.umd.edu/about-us/rosenberg-self-esteem-scale . Standard 10-item order and 4-point scale.
+- O*NET Interest Profiler Short Form: 60 items as listed in O*NET's Short Form Paper-and-Pencil report (Sept 2018, https://www.onetcenter.org/dl_files/IPSF_PP.pdf), five-point computerized scoring from the Short Form psychometric report. Used unchanged under the O*NET Career Exploration Tools license, Option 1 (CC BY-ND 4.0, https://www.onetcenter.org/license_tools.html). Required credit is shown on the test, results and reports. Instructions and career-area notes are original site text. Item text was transcribed from the PDF reports; spot-check against the official form if publishing widely.
+
+Comparison numbers (`docs/norms.js`) are percentiles computed from Open-Source Psychometrics Project raw data (https://openpsychometrics.org/_rawdata/, via the GitHub mirror haghish/openpsychometrics): Big Five 50-item, 19,634 respondents aged 13–99 (2012); Rosenberg, 45,582 respondents. Split into all ages, under 30, 30–49 and 50+. Volunteer internet samples, not representative norms; the UI says so. No comparison data is used for the 120-item test or the interest test.
+
+Other additions: then-vs-now panel on any result that has an earlier saved attempt (highlights moves of 10% of the range or more); "Everything at a glance" page (`#summary`) with one line and mini-bars per test, a personal notes box per test (saved locally and in backups) and a download-all-reports button; Career filter on the test bench; the external Rosenberg link card was replaced by the built-in test.

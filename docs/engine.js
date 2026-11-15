@@ -11,9 +11,11 @@ function assess(test,answers){
   const code=(scores[0]>24?'E':'I')+(scores[1]>24?'N':'S')+(scores[2]>24?'T':'F')+(scores[3]>24?'P':'J');
   return {scores,code,close:scores.map(n=>Math.abs(n-24)<=2)};
  }
- const dimensions=test.id==='enneagram'?9:test.id==='bigfive'?5:test.id==='emotions'?2:1;
- const scores=Array(dimensions).fill(0);
- test.items.forEach((item,i)=>scores[item.scale]+=item.reverse?6-answers[i]:answers[i]);
+ const dimensions=test.scaleCount||(test.id==='enneagram'?9:test.id==='bigfive'?5:test.id==='emotions'?2:1);
+ const scores=Array(dimensions).fill(0),flip=test.values[0]+test.values[test.values.length-1];
+ test.items.forEach((item,i)=>scores[item.scale]+=item.reverse?flip-answers[i]:answers[i]);
+ if(test.id==='bigfive120')return {scores,domains:[0,1,2,3,4].map(d=>scores.slice(d*6,d*6+6).reduce((a,b)=>a+b,0))};
+ if(test.id==='interests'){const order=scores.map((s,i)=>i).sort((a,b)=>scores[b]-scores[a]||a-b);return {scores,order,code:order.slice(0,3).map(i=>'RIASEC'[i]).join(''),tied:scores[order[2]]===scores[order[3]]||scores[order[0]]===scores[order[1]]||scores[order[1]]===scores[order[2]]};}
  return {scores};
 }
 function wing(scores){
@@ -24,4 +26,5 @@ function wing(scores){
  return {type,wing:neighbors[a>b?0:1],reason:'The higher-scoring adjacent type is a tentative wing, not a separately validated OEPS result.'};
 }
 function validAnswers(test,answers){return Array.isArray(answers)&&answers.length===test.items.length&&answers.every(v=>v===null||test.values.includes(v));}
-if(typeof module!=='undefined')module.exports={assess,validAnswers,wing};
+function percentile(testId,group,scale,score){if(typeof NORMS==='undefined'||!NORMS[testId])return null;const g=NORMS[testId][group]||NORMS[testId].all,min=testId==='selfesteem'?0:10,row=g.pct[scale];const v=row[score-min];return v===undefined?null:{pct:v,n:g.n};}
+if(typeof module!=='undefined')module.exports={assess,validAnswers,wing,percentile};
