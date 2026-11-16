@@ -78,3 +78,16 @@ Sources and terms:
 Comparison numbers (`docs/norms.js`) are percentiles computed from Open-Source Psychometrics Project raw data (https://openpsychometrics.org/_rawdata/, via the GitHub mirror haghish/openpsychometrics): Big Five 50-item, 19,634 respondents aged 13–99 (2012); Rosenberg, 45,582 respondents. Split into all ages, under 30, 30–49 and 50+. Volunteer internet samples, not representative norms; the UI says so. No comparison data is used for the 120-item test or the interest test.
 
 Other additions: then-vs-now panel on any result that has an earlier saved attempt (highlights moves of 10% of the range or more); "Everything at a glance" page (`#summary`) with one line and mini-bars per test, a personal notes box per test (saved locally and in backups) and a download-all-reports button; Career filter on the test bench; the external Rosenberg link card was replaced by the built-in test.
+
+## v3.1: Women's gut health guide
+
+Route `#wgut` (files `docs/wgut-data.js`, `docs/wgut.js`; check with `node wgut-check.cjs`). 30 original questions across safety, hormones and life stage, bowel pattern, food and habits, the gut–brain connection and health history. Produces a discussion guide; every topic is tagged with the expert(s) whose public work informs it, and `#wgut-experts` explains what was drawn from each.
+
+Experts (summarized from public work; none wrote, reviewed or endorsed the questionnaire, and none of their questionnaires are reproduced):
+- Lin Chang, MD (UCLA): menses- and menopause-related IBS symptom changes, extraintestinal symptoms and stress reactivity, brain–gut therapy.
+- Megan Rossi, PhD, RD (King's College London): plant diversity (about 30 plants a week, added slowly), hormones and slower transit in women, perimenopause motility, PMS and the gut.
+- Barbara Ryan & Elaine McGowan, RD (The Gut Experts): get a diagnosis before restricting; "low and slow" fiber (start about 20 g/day); everyday habits; TEAMS.
+- Baharak Moshiree, MD (Atrium Health): 2023 AGA practice update on belching, bloating and distention (anorectal testing when bloating comes with difficult evacuation, biofeedback, diaphragmatic breathing, brain–gut therapies, no probiotics for bloating).
+- Siobhain O'Mahony, PhD (University College Cork): sex differences in stress and the microbiome–gut–brain axis, early-life stress, estrobolome.
+
+Safety rules: emergency signs (including heavy vaginal bleeding and one-sided pelvic pain with possible pregnancy); prompt-review features (including unusual or postmenopausal vaginal bleeding); ovarian check prompt for new frequent bloating or related daily symptoms, and for IBS-like symptoms starting at 50+ without an IBS diagnosis (CDC symptoms page; NICE QS18 CA125 statement); colorectal screening reminder. Answers are stored under `know-yourself:wgut:v1` and included in backup files.
